@@ -14,11 +14,11 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1597703088558429');
+    fbq('init', '1413362930741174');
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1597703088558429&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=1413362930741174&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
     <!-- Favicon dengan Logo Interlocking Loop -->
@@ -754,11 +754,23 @@
                 return;
             }
 
-            // Meta Pixel Lead Event Tracking
+            // Meta Pixel Tracking for "Pesan Sekarang"
             if (typeof fbq !== 'undefined') {
+                // Event Standar Meta (InitiateCheckout & Lead)
+                fbq('track', 'InitiateCheckout', {
+                    content_name: '100 Game Edukatif',
+                    value: 50000,
+                    currency: 'IDR'
+                });
                 fbq('track', 'Lead', {
                     content_name: '100 Game Edukatif',
-                    value: 49000,
+                    value: 50000,
+                    currency: 'IDR'
+                });
+                // Custom Event khusus "PesanSekarang"
+                fbq('trackCustom', 'PesanSekarang', {
+                    content_name: '100 Game Edukatif',
+                    value: 50000,
                     currency: 'IDR'
                 });
             }

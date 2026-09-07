@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Game Edukatif - Cerdas & Ceria</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#110c1f',
+                            card: '#1d1533',
+                            cardLight: '#271c45',
+                            accent: '#ffcc00',
+                            accentHover: '#ebb800',
+                            purple: '#8b5cf6',
+                            purpleGlow: '#6d28d9',
+                            text: '#e2e8f0',
+                            muted: '#a0aec0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #110c1f;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Glassmorphism & Custom Shadow */
+        .glass-card {
+            background: rgba(29, 21, 51, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 35px -5px rgba(139, 92, 246, 0.35);
+        }
+
+        .glow-yellow {
+            box-shadow: 0 0 25px -3px rgba(255, 204, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #110c1f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #271c45;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+
+        .phone-frame {
+            border: 8px solid #2d2447;
+            border-radius: 36px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-purple selection:text-white pb-10">
+
+    <!-- Hero / Problem Intro Section -->
+    <header class="relative px-4 pt-8 pb-12 max-w-lg mx-auto text-center">
+        <!-- Background Ambient Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-brand-purple/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+        <!-- Problem Statement -->
+        <p class="text-base md:text-lg text-purple-100 font-normal leading-relaxed mb-6">
+            Pernah nggak, lagi masak atau lagi kerja, tiba-tiba anak tarik-tarik baju sambil bilang...
+        </p>
+
+        <!-- Quote Box -->
+        <div class="glass-card bg-[#21173d] border border-amber-500/30 rounded-2xl p-5 mb-6 shadow-lg relative overflow-hidden">
+            <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-amber-500/10 rounded-full blur-md"></div>
+            <h2 class="text-xl md:text-2xl font-extrabold text-brand-accent tracking-wide flex items-center justify-center gap-2">
+                "Ayah... Bunda... aku bosan."
+                <span class="text-2xl animate-bounce">😃</span>
+            </h2>
+        </div>
+
+        <!-- Problem Details Text -->
+        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 text-left md:text-center">
+            Ujung-ujungnya HP dikasih juga, tapi hati enggak tenang. Takut cuma nonton video sembarangan, takut kelamaan, takut anaknya cuma diam tanpa dapat apa-apa. Padahal usia 4–6 tahun ini masanya paling gampang nyerep hal baru – sayang banget kalau waktu bermainnya enggak ngasih manfaat apa-apa.
+        </p>
+
+        <!-- Badge Tag -->
+        <div class="inline-flex items-center gap-2 bg-[#2d1b4e] border border-pink-500/30 px-4 py-2 rounded-full text-xs md:text-sm text-pink-200 mb-8 shadow-sm">
+            <span>🧠</span>
+            <span class="font-medium">Dirancang sesuai tahap tumbuh kembang anak</span>
+        </div>
+
+        <!-- Solution Intro -->
+        <p class="text-base font-semibold text-purple-200 mb-6">
+            Tenang, ada caranya kok:
+        </p>
+
+        <!-- Product Box Mockup Card -->
+        <div class="glass-card rounded-3xl p-4 md:p-6 mb-12 shadow-2xl border border-purple-500/20 glow-purple group transition-all duration-300 hover:scale-[1.01]">
+            <div class="relative bg-gradient-to-b from-[#2a1d4a] to-[#1a1233] rounded-2xl p-6 text-center overflow-hidden border border-purple-400/20">
+                <!-- Decorative Graphic Element -->
+                <div class="absolute -top-10 -left-10 w-32 h-32 bg-brand-purple/30 rounded-full blur-2xl"></div>
+                <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+                    <!-- Box Header Pill -->
+                    <span class="inline-block bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-3 shadow">
+                        Akses Instan & Digital
+                    </span>
+                    
+                    <!-- Product Title -->
+                    <div class="my-2">
+                        <span class="block text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 drop-shadow">
+                            100
+                        </span>
+                        <span class="block text-xl font-extrabold text-white uppercase tracking-wider mt-1">
+                            Game Edukatif
+                        </span>
+                        <span class="inline-block text-xs bg-purple-600/60 text-purple-200 px-3 py-0.5 rounded-full mt-1 border border-purple-400/30">
+                            Usia Dini (4-6 Tahun)
+                        </span>
+                    </div>
+
+                    <!-- Visual Illustration Card Mockup -->
+                    <div class="mt-6 bg-[#160f2b] p-4 rounded-xl border border-purple-500/30 shadow-inner flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-3xl shadow-lg mb-3">
+                            🧩
+                        </div>
+                        <p class="text-xs text-purple-200 font-medium">100 Game Interaktif dalam 1 Link</p>
+                        <div class="flex items-center gap-1 text-amber-400 text-xs mt-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-400 ml-1">(4.9/5 oleh Orang Tua)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 2: 100 Game, Isinya Belajar Semua -->
+    <section class="max-w-lg mx-auto px-4 mb-16">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3 leading-tight">
+                100 Game, Isinya Belajar Semua
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 leading-relaxed">
+                Satu web aja, tanpa install, anak bisa asyik main sambil melatih 6 kemampuan penting — dari cara berpikir, motorik halus, sampai fondasi karakter.
+            </p>
+        </div>
+
+        <!-- 6 Category Grid -->
+        <div class="grid grid-cols-2 gap-3 md:gap-4">
+            
+            <!-- Card 1: Berhitung -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fas fa-calculator text-white"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Berhitung</h3>
+                <p class="text-xs text-gray-300 leading-snug">Kenal angka & operasi dasar</p>
+            </div>
+
+            <!-- Card 2: Mengenal Huruf -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <span class="font-extrabold text-white">Abc</span>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Mengenal Huruf</h3>
+                <p class="text-xs text-gray-300 leading-snug">Bekal sebelum lancar membaca</p>
+            </div>
+
+            <!-- Card 3: Logika -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fas fa-puzzle-piece text-white"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Logika</h3>
+                <p class="text-xs text-gray-300 leading-snug">Melatih otak mikir & memecahkan masalah</p>
+            </div>
+
+            <!-- Card 4: Seni & Motorik -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fas fa-palette text-white"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Seni & Motorik</h3>
+                <p class="text-xs text-gray-300 leading-snug">Kreativitas & keterampilan tangan</p>
+            </div>
+
+            <!-- Card 5: Daya Ingat -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-red-500 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fas fa-brain text-white"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Daya Ingat</h3>
+                <p class="text-xs text-gray-300 leading-snug">Melatih fokus, enggak gampang lupa</p>
+            </div>
+
+            <!-- Card 6: Karakter & Agama -->
+            <div class="glass-card bg-[#1a132e] border border-purple-500/20 rounded-2xl p-4 hover:border-amber-400/50 transition-all duration-300 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-lg font-bold mb-3 shadow-md group-hover:scale-110 transition-transform">
+                    <i class="fas fa-seedling text-white"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1">Karakter & Agama</h3>
+                <p class="text-xs text-gray-300 leading-snug">Sains, akhlak, hingga ibadah</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section 3: Gampang Banget Mainnya -->
+    <section class="max-w-lg mx-auto px-4 mb-16">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">
+                Gampang Banget Mainnya
+            </h2>
+            <p class="text-sm md:text-base text-gray-300">
+                Enggak perlu ribet unduh atau install aplikasi apa pun.
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Step 1 -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-[#1d1533] border border-purple-500/15">
+                <div class="w-9 h-9 rounded-xl bg-purple-900/60 border border-purple-400/30 flex items-center justify-center shrink-0 text-white font-bold text-base shadow">
+                    1
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Buka link web</h3>
+                    <p class="text-xs md:text-sm text-gray-300 mt-0.5">Langsung dari browser HP atau laptop.</p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-[#1d1533] border border-purple-500/15">
+                <div class="w-9 h-9 rounded-xl bg-purple-900/60 border border-purple-400/30 flex items-center justify-center shrink-0 text-white font-bold text-base shadow">
+                    2
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Pilih game</h3>
+                    <p class="text-xs md:text-sm text-gray-300 mt-0.5">100 pilihan, dari 6 kategori berbeda.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-[#1d1533] border border-purple-500/15">
+                <div class="w-9 h-9 rounded-xl bg-purple-900/60 border border-purple-400/30 flex items-center justify-center shrink-0 text-white font-bold text-base shadow">
+                    3
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Langsung main</h3>
+                    <p class="text-xs md:text-sm text-gray-300 mt-0.5">Tanpa download, tanpa install.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Coba Intip Isinya (Interactive Mobile Game Mockups) -->
+    <section class="max-w-lg mx-auto px-4 mb-16">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">
+                Coba Intip Isinya
+            </h2>
+            <p class="text-sm text-gray-300">
+                Biar enggak penasaran, ini beberapa cuplikan langsung dari game-nya:
+            </p>
+        </div>
+
+        <!-- Phone Frame Carousel -->
+        <div class="relative max-w-xs mx-auto">
+            <div class="phone-frame bg-slate-900 overflow-hidden relative min-h-[420px] flex flex-col justify-between p-4">
+                
+                <!-- Phone Top Bar Mockup -->
+                <div class="flex items-center justify-between text-xs text-gray-400 mb-3 px-1 border-b border-gray-800 pb-2">
+                    <span class="font-medium">100 Game Edukatif</span>
+                    <div class="flex items-center gap-1">
+                        <i class="fas fa-wifi text-[10px]"></i>
+                        <i class="fas fa-battery-full text-[10px]"></i>
+                    </div>
+                </div>
+
+                <!-- Slide 1: Audio/Emotion Game -->
+                <div id="slide-1" class="slide-item transition-all duration-500 block">
+                    <div class="bg-emerald-700/30 border border-emerald-500/30 rounded-xl p-3 text-center mb-3">
+                        <span class="text-xs text-emerald-300 font-semibold uppercase tracking-wider block mb-1">
+                            Tele - Perasaan
+                        </span>
+                        <div class="flex items-center justify-center gap-2 text-xs text-white bg-emerald-800/40 py-1 px-2 rounded-lg">
+                            <i class="fas fa-volume-high text-emerald-300 animate-pulse"></i>
+                            <span>Dengarkan Suara Petir</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 rounded-2xl p-4 text-center my-3 border border-white/10">
+                        <p class="text-xs text-gray-200 mb-3 font-medium">
+                            Budi mendengar suara petir keras. Bagaimana <span class="text-amber-300 font-bold">perasaannya?</span>
+                        </p>
+
+                        <!-- Interactive Emotion Options -->
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <button onclick="handleGameAnswer(this, true)" class="bg-amber-300/20 hover:bg-amber-300/30 border border-amber-300/50 rounded-xl p-3 flex flex-col items-center gap-1 transition">
+                                <span class="text-3xl">😨</span>
+                                <span class="text-[10px] text-amber-200">Takut</span>
+                            </button>
+                            <button onclick="handleGameAnswer(this, false)" class="bg-amber-300/20 hover:bg-amber-300/30 border border-amber-300/50 rounded-xl p-3 flex flex-col items-center gap-1 transition">
+                                <span class="text-3xl">😃</span>
+                                <span class="text-[10px] text-amber-200">Senang</span>
+                            </button>
+                        </div>
+                        <div id="game-feedback" class="text-xs font-bold text-emerald-400 hidden">
+                            ✨ Hebat! Jawaban Benar!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Math Game -->
+                <div id="slide-2" class="slide-item transition-all duration-500 hidden">
+                    <div class="bg-blue-700/30 border border-blue-500/30 rounded-xl p-3 text-center mb-3">
+                        <span class="text-xs text-blue-300 font-semibold uppercase tracking-wider block mb-1">
+                            Berhitung Ceria
+                        </span>
+                        <div class="flex items-center justify-center gap-2 text-xs text-white bg-blue-800/40 py-1 px-2 rounded-lg">
+                            <span>Hitung Jumlah Apel 🍎</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 rounded-2xl p-4 text-center my-3 border border-white/10">
+                        <div class="flex justify-center gap-2 text-2xl mb-3">
+                            🍎 🍎 🍎
+                        </div>
+                        <p class="text-xs text-gray-200 mb-3 font-medium">Ada berapa buah apel di atas?</p>
+                        
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="alert('Coba hitung lagi yuk!')" class="bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/40 py-2 rounded-lg text-sm font-bold text-white">2</button>
+                            <button onclick="alert('🎉 Tepat sekali! Ada 3 apel!')" class="bg-emerald-500/30 hover:bg-emerald-500/50 border border-emerald-400 py-2 rounded-lg text-sm font-bold text-emerald-300">3</button>
+                            <button onclick="alert('Coba hitung lagi yuk!')" class="bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/40 py-2 rounded-lg text-sm font-bold text-white">5</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Letter Match Game -->
+                <div id="slide-3" class="slide-item transition-all duration-500 hidden">
+                    <div class="bg-purple-700/30 border border-purple-500/30 rounded-xl p-3 text-center mb-3">
+                        <span class="text-xs text-purple-300 font-semibold uppercase tracking-wider block mb-1">
+                            Mengenal Huruf
+                        </span>
+                        <div class="flex items-center justify-center gap-2 text-xs text-white bg-purple-800/40 py-1 px-2 rounded-lg">
+                            <span>Huruf Awal Benda 🐱</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 rounded-2xl p-4 text-center my-3 border border-white/10">
+                        <span class="text-4xl block mb-2">🐱 Kucing</span>
+                        <p class="text-xs text-gray-200 mb-3 font-medium">Huruf depan kata Kucing adalah?</p>
+                        
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="alert('🎉 Benar! K untuk Kucing!')" class="bg-purple-500/40 border border-purple-300 py-2 rounded-lg text-base font-bold text-amber-300">K</button>
+                            <button onclick="alert('Belum pas, ayo coba lagi!')" class="bg-purple-500/20 border border-purple-400/30 py-2 rounded-lg text-base font-bold text-white">B</button>
+                            <button onclick="alert('Belum pas, ayo coba lagi!')" class="bg-purple-500/20 border border-purple-400/30 py-2 rounded-lg text-base font-bold text-white">M</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Controls Carousel Nav -->
+                <div class="flex items-center justify-between pt-2 border-t border-gray-800 mt-2">
+                    <button onclick="prevSlide()" class="text-xs text-gray-400 hover:text-white px-2 py-1 bg-white/5 rounded">
+                        <i class="fas fa-chevron-left mr-1"></i> Prev
+                    </button>
+                    
+                    <div class="flex gap-1.5" id="slide-dots">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 transition-all dot"></span>
+                        <span class="w-2 h-2 rounded-full bg-gray-600 transition-all dot"></span>
+                        <span class="w-2 h-2 rounded-full bg-gray-600 transition-all dot"></span>
+                    </div>
+
+                    <button onclick="nextSlide()" class="text-xs text-gray-400 hover:text-white px-2 py-1 bg-white/5 rounded">
+                        Next <i class="fas fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <p class="text-center text-xs text-purple-300/80 mt-4 flex items-center justify-center gap-1">
+            <span>👉</span> Geser slide, atau biarkan berjalan otomatis
+        </p>
+    </section>
+
+    <!-- Section 5: Advice Cards for Parents -->
+    <section class="max-w-lg mx-auto px-4 mb-16 space-y-6">
+        
+        <!-- Wise Parent Advice Box -->
+        <div class="glass-card bg-[#211836] border border-amber-500/30 rounded-2xl p-5 relative overflow-hidden">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-base mb-3">
+                <i class="fas fa-heart text-pink-500"></i>
+                <h3>Tetap Bijak, Ayah Bunda</h3>
+            </div>
+            <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+                Mesti ada 100 game, bukan berarti dimainkan seharian penuh, ya. Cukup kasih jatah waktu bermain 20–30 menit, lalu imbangi dengan membaca, bermain fisik, dan quality time bareng keluarga. Yang kita cari bukan sekadar anak jadi anteng, tapi waktu bermain yang benar-benar berarti buat tumbuh kembangnya.
+            </p>
+        </div>
+
+        <!-- Why Learn While Playing Research Box -->
+        <div class="glass-card bg-[#1a132e] border border-purple-500/25 rounded-2xl p-5">
+            <div class="flex items-center gap-2 text-purple-300 font-bold text-base mb-3">
+                <i class="fas fa-flask text-purple-400"></i>
+                <h3>Kenapa Belajar Sambil Bermain?</h3>
+            </div>
+            <p class="text-xs md:text-sm text-gray-300 leading-relaxed mb-3">
+                Ahli tumbuh kembang anak sering bilang, cara belajar paling efektif buat usia dini itu lewat bermain — bukan duduk diam dengerin penjelasan. Saat main game yang terstruktur, anak sebenarnya lagi melatih fokus, daya ingat, dan kemampuan mengontrol diri, tanpa merasa sedang "belajar".
+            </p>
+            <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+                Itu sebabnya 100 game ini disusun berjenjang per kategori, bukan asal kumpul — biar tiap sesi main benar-benar ngasih manfaat buat satu kemampuan tertentu.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- Section 6: Pricing & Investment Offer (Screenshot 2) -->
+    <section class="max-w-lg mx-auto px-4 mb-16">
+        
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2 leading-tight">
+                Investasi Kecil, Manfaat Setahun
+            </h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+                Buat stimulasi tumbuh kembang anak, enggak harus mahal kok — segini aja, manfaatnya bisa dirasain sepanjang tahun.
+            </p>
+        </div>
+
+        <!-- Main Pricing Card -->
+        <div class="glass-card bg-gradient-to-b from-[#382663] to-[#20153f] border border-purple-400/40 rounded-3xl p-6 shadow-2xl relative glow-purple overflow-hidden">
+            
+            <div class="text-center mb-6">
+                <!-- Strike price -->
+                <p class="text-xs text-purple-200 line-through mb-1">
+                    Harga normal Rp150.000
+                </p>
+                <!-- Promo Price -->
+                <div class="text-4xl md:text-5xl font-black text-brand-accent tracking-tight mb-2 drop-shadow-md">
+                    Rp49.000
+                </div>
+                <!-- Subscription note -->
+                <p class="text-xs text-purple-200 font-medium">
+                    Akses 1 tahun penuh — cuma <span class="bg-purple-900/80 px-2 py-0.5 rounded font-bold text-amber-300">±Rp135/hari</span>
+                </p>
+            </div>
+
+            <!-- Features Bullet list -->
+            <ul class="space-y-3 mb-6 text-sm">
+                <li class="flex items-start gap-3">
+                    <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 shadow">
+                        ✓
+                    </div>
+                    <span class="text-gray-100 font-medium">100 game edukatif, 6 kategori</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 shadow">
+                        ✓
+                    </div>
+                    <span class="text-gray-100 font-medium">Akses langsung via web, tanpa install</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 shadow">
+                        ✓
+                    </div>
+                    <span class="text-gray-100 font-medium">Berlaku 1 tahun penuh</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 shadow">
+                        ✓
+                    </div>
+                    <span class="text-gray-100 font-medium">Bonus akses web belajar PAUD–Kuliah</span>
+                </li>
+            </ul>
+
+            <!-- Candy note -->
+            <div class="text-center border-t border-purple-500/30 pt-4">
+                <p class="text-xs text-pink-300 italic font-medium flex items-center justify-center gap-1">
+                    Lebih murah dari harga 1 buah permen 🍬
+                </p>
+            </div>
+        </div>
+
+        <!-- Bonus Card Section -->
+        <div class="mt-6 glass-card bg-[#1c1533] border-2 border-dashed border-amber-500/40 rounded-2xl p-5 relative">
+            <span class="inline-block bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider mb-2 shadow">
+                BONUS
+            </span>
+            <h3 class="text-base font-bold text-white mb-3">
+                Akses Web Belajar Online
+            </h3>
+
+            <!-- Tags Grid -->
+            <div class="grid grid-cols-3 gap-2">
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    PAUD
+                </div>
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    SMP
+                </div>
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    SMA
+                </div>
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    Kuliah
+                </div>
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    Umum
+                </div>
+                <div class="bg-[#2a1d47] border border-purple-500/20 py-2 px-3 rounded-xl text-center text-xs font-semibold text-purple-200">
+                    + Lainnya
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Section 7: Order Form (Yuk, Miliki Aksesnya) -->
+    <section id="order-form" class="max-w-lg mx-auto px-4 mb-16">
+        
+        <div class="text-center mb-6">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">
+                Yuk, Miliki Aksesnya
+            </h2>
+            <p class="text-sm text-gray-300">
+                Isi data di bawah, nanti tinggal lanjut konfirmasi lewat WhatsApp.
+            </p>
+        </div>
+
+        <!-- Form Card Container -->
+        <div class="glass-card bg-[#1a132e] border border-purple-500/30 rounded-3xl p-6 shadow-xl">
+            <form id="whatsappForm" onsubmit="submitToWhatsApp(event)" class="space-y-4">
+                
+                <!-- Field 1: Nama Lengkap -->
+                <div>
+                    <label for="fullName" class="block text-xs font-semibold text-gray-200 mb-1.5">
+                        Nama lengkap
+                    </label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        required 
+                        placeholder="Contoh: Siti Rahma" 
+                        class="w-full bg-[#110c1f] border border-purple-500/30 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition"
+                    >
+                </div>
+
+                <!-- Field 2: No WhatsApp -->
+                <div>
+                    <label for="whatsappNo" class="block text-xs font-semibold text-gray-200 mb-1.5">
+                        No. WhatsApp
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="whatsappNo" 
+                        required 
+                        placeholder="Contoh: 0812xxxxxxx" 
+                        class="w-full bg-[#110c1f] border border-purple-500/30 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition"
+                    >
+                </div>
+
+                <!-- Field 3: Email -->
+                <div>
+                    <label for="email" class="block text-xs font-semibold text-gray-200 mb-1.5">
+                        Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        required 
+                        placeholder="Contoh: nama@email.com" 
+                        class="w-full bg-[#110c1f] border border-purple-500/30 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition"
+                    >
+                </div>
+
+                <!-- Submit Button CTA -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-gradient-to-r from-amber-400 via-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-extrabold text-base py-4 rounded-xl shadow-lg glow-yellow transform active:scale-95 transition-all duration-200 mt-2 flex items-center justify-center gap-2"
+                >
+                    <i class="fab fa-whatsapp text-xl text-emerald-950"></i>
+                    <span>Pesan Sekarang</span>
+                </button>
+
+                <p class="text-[11px] text-center text-gray-400 mt-3 leading-relaxed">
+                    Kamu akan diarahkan ke WhatsApp admin untuk konfirmasi & pembayaran.
+                </p>
+
+            </form>
+        </div>
+
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="max-w-lg mx-auto px-4 text-center text-xs text-gray-400 pt-6 border-t border-purple-500/10 space-y-4">
+        <p class="italic text-purple-200 font-medium">
+            "Waktu bermain hari ini adalah fondasi cara berpikir anak di masa depan."
+        </p>
+        <p class="text-[10px] text-gray-500">
+            © 2026 100 Game Edukatif · Abu Zizi. Semua hak cipta dilindungi.
+        </p>
+    </footer>
+
+    <script>
+        // Game Slide Carousel Controller
+        let currentSlide = 1;
+        const totalSlides = 3;
+        let slideTimer;
+
+        function showSlide(index) {
+            currentSlide = index;
+            for (let i = 1; i <= totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (slide) {
+                    if (i === currentSlide) {
+                        slide.classList.remove('hidden');
+                        slide.classList.add('block');
+                    } else {
+                        slide.classList.add('hidden');
+                        slide.classList.remove('block');
+                    }
+                }
+            }
+
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide - 1) {
+                    dot.classList.add('bg-amber-400', 'w-4');
+                    dot.classList.remove('bg-gray-600', 'w-2');
+                } else {
+                    dot.classList.remove('bg-amber-400', 'w-4');
+                    dot.classList.add('bg-gray-600', 'w-2');
+                }
+            });
+        }
+
+        function nextSlide() {
+            let next = currentSlide + 1;
+            if (next > totalSlides) next = 1;
+            showSlide(next);
+            resetAutoSlide();
+        }
+
+        function prevSlide() {
+            let prev = currentSlide - 1;
+            if (prev < 1) prev = totalSlides;
+            showSlide(prev);
+            resetAutoSlide();
+        }
+
+        function resetAutoSlide() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(() => {
+                nextSlide();
+            }, 4500);
+        }
+
+        // Mini Game Feedback Handler
+        function handleGameAnswer(btn, isCorrect) {
+            const feedback = document.getElementById('game-feedback');
+            if (isCorrect) {
+                feedback.classList.remove('hidden');
+                btn.classList.add('bg-emerald-500/40', 'border-emerald-400');
+            } else {
+                feedback.classList.add('hidden');
+                alert('Hampir benar! Coba tebak lagi ya 😊');
+            }
+        }
+
+        // WhatsApp Checkout Submission Form
+        function submitToWhatsApp(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('fullName').value.trim();
+            const wa = document.getElementById('whatsappNo').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !wa || !email) {
+                alert('Silakan lengkapi semua data form!');
+                return;
+            }
+
+            // Construct encoded WhatsApp message
+            const phoneNumber = "6281916760027"; // Admin phone placeholder
+            const textMessage = `Halo Admin, saya ingin memesan akses *100 Game Edukatif (Rp49.000)*.\n\n` +
+                                `📋 *Data Pemesan:*\n` +
+                                `- Nama: ${name}\n` +
+                                `- WhatsApp: ${wa}\n` +
+                                `- Email: ${email}\n\n` +
+                                `Mohon infokan rekening/Metode pembayaran WhatsApp. Terima kasih!`;
+
+            const encodedMessage = encodeURIComponent(textMessage);
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            // Open WhatsApp in new tab
+            window.open(waUrl, '_blank');
+        }
+
+        // Start Auto Slide on page load
+        window.onload = function() {
+            showSlide(1);
+            resetAutoSlide();
+        };
+    </script>
+</body>
+</html>

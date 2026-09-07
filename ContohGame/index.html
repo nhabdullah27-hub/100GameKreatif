@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Induk & Anak Hewan - Game Edukasi Anak</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Fredoka & Quicksand for fun kid-friendly typography) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#6C5CE7',
+                            darkPurple: '#2D1B69',
+                            yellow: '#FFC312',
+                            orange: '#FF9F1A',
+                            pink: '#FF7675',
+                            green: '#2ED573',
+                            bgDark: '#120E2E',
+                            cardDark: '#1E1743'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Fredoka', 'Quicksand', 'sans-serif'],
+                    },
+                    animation: {
+                        bounceShort: 'bounce 0.6s ease-in-out 2',
+                        wiggle: 'wiggle 0.5s ease-in-out infinite',
+                        pulseSlow: 'pulse 3s infinite',
+                        pop: 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                    },
+                    keyframes: {
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        },
+                        pop: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #181236 0%, #2D1B69 50%, #120E2E 100%);
+            min-height: 100vh;
+            color: #FFFFFF;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .glass-button {
+            background: linear-gradient(180deg, #FFD15C 0%, #FFA800 100%);
+            box-shadow: 0 6px 0px #C97700, 0 10px 15px rgba(0,0,0,0.3);
+            transition: all 0.15s ease;
+        }
+
+        .glass-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px #C97700, 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFC312;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-100 overflow-x-hidden">
+
+    <!-- TOP HEADER NAVBAR -->
+    <header class="sticky top-0 z-50 bg-brand-darkPurple/90 backdrop-blur-md border-b border-purple-500/30 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('home')">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center text-2xl shadow-lg border-2 border-yellow-200">
+                    🐾
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide text-yellow-300 drop-shadow">Induk & Anak Hewan</h1>
+                    <p class="text-xs text-purple-200 font-medium">Dunia Belajar Interactive Kids</p>
+                </div>
+            </div>
+
+            <!-- Score & Sound Controls -->
+            <div class="flex items-center space-x-3">
+                <a href="https://nhabdullah27-hub.github.io/100GameKreatif/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-900 font-extrabold px-3.5 py-1.5 rounded-full text-xs md:text-sm shadow-lg transform hover:scale-105 transition flex items-center space-x-1.5 border border-yellow-200">
+                    <span>🎁 100+ Game Edukatif</span>
+                </a>
+
+                <div class="bg-purple-900/80 border border-yellow-400/40 px-3 py-1.5 rounded-full flex items-center space-x-2">
+                    <span class="text-yellow-400 text-lg animate-bounce">⭐</span>
+                    <span id="starScore" class="font-bold text-yellow-300 text-lg">0</span>
+                </div>
+
+                <button id="soundToggleBtn" onclick="toggleAudio()" class="w-10 h-10 rounded-full bg-purple-800 hover:bg-purple-700 flex items-center justify-center border border-purple-400/30 text-yellow-300 transition">
+                    <i id="soundIcon" class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-6">
+
+        <!-- HOME / GAME MENU SECTION -->
+        <section id="homeSection" class="space-y-8 animate-pop">
+            <!-- Hero Banner -->
+            <div class="glass-card rounded-3xl p-6 md:p-8 relative overflow-hidden text-center md:text-left flex flex-col md:flex-row items-center justify-between border-2 border-purple-400/30">
+                <div class="z-10 max-w-lg space-y-4">
+                    <span class="inline-block bg-yellow-400/20 text-yellow-300 px-4 py-1.5 rounded-full text-sm font-semibold border border-yellow-400/30">
+                        ✨ Game Edukasi Usia 3-7 Tahun
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                        Bantu Bayi Hewan Menemukan Induknya! 🐣🐱
+                    </h2>
+                    <p class="text-purple-200 text-base md:text-lg">
+                        Latih daya ingat, logika, dan kosakata anak dengan permainan seru interaktif yang ramah anak.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3 justify-center md:justify-start">
+                        <button onclick="showSection('matchGame')" class="glass-button px-6 py-3 rounded-2xl font-bold text-slate-900 text-lg flex items-center space-x-2 hover:scale-105 transition">
+                            <i class="fas fa-play text-slate-900"></i>
+                            <span>Mulai Bermain</span>
+                        </button>
+                        <button onclick="showSection('learnSection')" class="bg-purple-800/80 hover:bg-purple-700 text-yellow-300 px-5 py-3 rounded-2xl font-bold border border-yellow-400/30 flex items-center space-x-2">
+                            <i class="fas fa-book-open"></i>
+                            <span>Kamus Anak Hewan</span>
+                        </button>
+                        <a href="https://nhabdullah27-hub.github.io/100GameKreatif/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white px-5 py-3 rounded-2xl font-bold border border-pink-300 flex items-center space-x-2 shadow-lg hover:scale-105 transition animate-pulse">
+                            <i class="fas fa-gift"></i>
+                            <span>Akses 100+ Game Lengkap!</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-6 md:mt-0 relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-yellow-400/20 rounded-full blur-2xl"></div>
+                    <div class="text-7xl md:text-8xl animate-wiggle">
+                        🐄🍼
+                    </div>
+                </div>
+            </div>
+
+            <!-- GAME SELECTION GRID -->
+            <div>
+                <h3 class="text-2xl font-bold text-yellow-300 mb-4 flex items-center space-x-2">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Pilih Permainan Seru</span>
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <!-- Game Card 1 -->
+                    <div onclick="showSection('matchGame')" class="glass-card rounded-3xl p-5 card-hover cursor-pointer border border-pink-500/30 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-pink-500/20 text-3xl flex items-center justify-center mb-4 border border-pink-400/30 group-hover:scale-110 transition">
+                                🧩
+                            </div>
+                            <h4 class="text-xl font-bold text-white mb-2">Jodohkan Induk & Anak</h4>
+                            <p class="text-sm text-purple-200">Tarik atau sentuh anak hewan untuk mencocokkan dengan ibunya.</p>
+                        </div>
+                        <div class="mt-5 flex justify-between items-center text-xs font-semibold text-pink-300">
+                            <span>Melatih Logika & Motorik</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Game Card 2 -->
+                    <div onclick="showSection('rescueGame')" class="glass-card rounded-3xl p-5 card-hover cursor-pointer border border-green-500/30 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-green-500/20 text-3xl flex items-center justify-center mb-4 border border-green-400/30 group-hover:scale-110 transition">
+                                🔍
+                            </div>
+                            <h4 class="text-xl font-bold text-white mb-2">Cari Anak Hilang!</h4>
+                            <p class="text-sm text-purple-200">Bantu Sang Induk mencari anaknya yang bersembunyi di hutan.</p>
+                        </div>
+                        <div class="mt-5 flex justify-between items-center text-xs font-semibold text-green-300">
+                            <span>Melatih Ketelitian</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Game Card 3 -->
+                    <div onclick="showSection('memoryGame')" class="glass-card rounded-3xl p-5 card-hover cursor-pointer border border-yellow-500/30 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-yellow-500/20 text-3xl flex items-center justify-center mb-4 border border-yellow-400/30 group-hover:scale-110 transition">
+                                🎴
+                            </div>
+                            <h4 class="text-xl font-bold text-white mb-2">Kartu Memori</h4>
+                            <p class="text-sm text-purple-200">Buka kartu dan temukan pasangan induk dan anak hewan yang sesuai.</p>
+                        </div>
+                        <div class="mt-5 flex justify-between items-center text-xs font-semibold text-yellow-300">
+                            <span>Melatih Daya Ingat</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Game Card 4 -->
+                    <div onclick="showSection('quizGame')" class="glass-card rounded-3xl p-5 card-hover cursor-pointer border border-cyan-500/30 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-3xl flex items-center justify-center mb-4 border border-cyan-400/30 group-hover:scale-110 transition">
+                                ❓
+                            </div>
+                            <h4 class="text-xl font-bold text-white mb-2">Kuis Istilah Hewan</h4>
+                            <p class="text-sm text-purple-200">Tahukah kamu nama anak Sapi, Ayam, atau Kuda? Yuk tes di sini!</p>
+                        </div>
+                        <div class="mt-5 flex justify-between items-center text-xs font-semibold text-cyan-300">
+                            <span>Melatih Kosakata</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFO / BENEFITS BANNER -->
+            <div class="bg-purple-900/50 rounded-2xl p-5 border border-purple-400/20 flex flex-col md:flex-row items-center justify-between text-purple-200 text-sm gap-4">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">💡</span>
+                    <div>
+                        <p class="font-bold text-white">Tips Bunda & Ayah:</p>
+                        <p>Dampingi anak sambil membunyikan suara hewan bersama untuk stimulasi pendengaran dan wawasan anak!</p>
+                    </div>
+                </div>
+                <button onclick="showSection('learnSection')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 text-xs font-bold whitespace-nowrap">
+                    Lihat Kamus Nama Anak Hewan &rarr;
+                </button>
+            </div>
+
+            <!-- PROMOTION BANNER FOR 100 GAME EDUKATIF -->
+            <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-purple-900/90 via-indigo-900/90 to-purple-900/90 border-2 border-yellow-400/60 shadow-2xl relative overflow-hidden text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3 max-w-xl">
+                    <span class="inline-block bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider">
+                        🔥 Rekomendasi Bunda & Ayah
+                    </span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-yellow-300 leading-tight">
+                        Mau 100+ Game Edukatif Seru Lainnya Tanpa Iklan?
+                    </h3>
+                    <p class="text-purple-200 text-sm md:text-base">
+                        Satu tempat untuk melatih 6 kemampuan penting anak (Berhitung, Mengenal Huruf, Logika, Motorik, Daya Ingat & Karakter). Cukup sekali klik, tanpa install aplikasi!
+                    </p>
+                </div>
+                <div class="flex flex-col items-center shrink-0 w-full md:w-auto">
+                    <a href="https://nhabdullah27-hub.github.io/100GameKreatif/" target="_blank" rel="noopener noreferrer" class="glass-button w-full md:w-auto px-8 py-4 rounded-2xl font-black text-slate-900 text-xl shadow-2xl hover:scale-105 transition flex items-center justify-center space-x-3 border-2 border-yellow-200">
+                        <span>🚀 DAPATKAN AKSES 100 GAME</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <span class="text-xs text-yellow-300 font-bold mt-2">✨ Tanpa Install • Akses Langsung di HP/Laptop</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 1: MATCHING GAME SECTION -->
+        <section id="matchGameSection" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 font-bold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </button>
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-yellow-300">Jodohkan Induk & Anak</h2>
+                    <p class="text-xs text-purple-200">Klik anak hewan lalu klik induk yang cocok!</p>
+                </div>
+                <button onclick="resetMatchGame()" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-3 py-2 rounded-xl border border-purple-400/30 text-sm">
+                    <i class="fas fa-redo"></i> Ulang
+                </button>
+            </div>
+
+            <!-- Match Arena -->
+            <div class="glass-card rounded-3xl p-6 border-2 border-purple-400/30">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    
+                    <!-- Left: Baby Animals -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-pink-300 text-center flex items-center justify-center space-x-2">
+                            <span>👶 Anak Hewan</span>
+                        </h3>
+                        <div id="babiesContainer" class="grid grid-cols-2 gap-4">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Mother Animals -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-yellow-300 text-center flex items-center justify-center space-x-2">
+                            <span>👩‍👦 Induk Hewan</span>
+                        </h3>
+                        <div id="mothersContainer" class="grid grid-cols-2 gap-4">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="matchGameMsg" class="mt-6 text-center text-lg font-bold min-h-[30px] text-yellow-300">
+                    Pilih salah satu Anak Hewan terlebih dahulu!
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 2: RESCUE / SEARCH GAME SECTION -->
+        <section id="rescueGameSection" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 font-bold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </button>
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-yellow-300">Cari Anak Hilang!</h2>
+                    <p class="text-xs text-purple-200">Bantu Induk Hewan menemukan anaknya di balik semak-semak!</p>
+                </div>
+                <div class="w-16"></div>
+            </div>
+
+            <!-- Rescue Arena -->
+            <div class="glass-card rounded-3xl p-6 border-2 border-purple-400/30 text-center space-y-6 relative overflow-hidden">
+                <!-- Mission Banner -->
+                <div class="bg-purple-900/80 p-4 rounded-2xl border border-yellow-400/30 inline-block max-w-lg mx-auto">
+                    <div class="text-5xl mb-2" id="rescueMotherEmoji">🐄</div>
+                    <p class="text-lg font-bold text-yellow-300" id="rescueTaskText">
+                        "Mooo! Dimanakah Pedet (Anak Sapi) milikku?"
+                    </p>
+                </div>
+
+                <!-- Bushes Field -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto pt-4" id="bushesGrid">
+                    <!-- Injected by JS -->
+                </div>
+
+                <div id="rescueFeedback" class="text-lg font-bold text-pink-300 h-8">
+                    Ketuk semak-semak untuk mencari!
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 3: MEMORY CARDS SECTION -->
+        <section id="memoryGameSection" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 font-bold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </button>
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-yellow-300">Kartu Memori Induk & Anak</h2>
+                    <p class="text-xs text-purple-200">Buka 2 kartu yang berpasangan!</p>
+                </div>
+                <button onclick="resetMemoryGame()" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-3 py-2 rounded-xl border border-purple-400/30 text-sm">
+                    <i class="fas fa-redo"></i> Ulang
+                </button>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 border-2 border-purple-400/30">
+                <div id="memoryGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 4: QUIZ SECTION -->
+        <section id="quizGameSection" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 font-bold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </button>
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-yellow-300">Kuis Nama Anak Hewan</h2>
+                    <p class="text-xs text-purple-200">Uji pengetahuan nama unik anak hewan!</p>
+                </div>
+                <div class="w-16"></div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 md:p-8 max-w-2xl mx-auto border-2 border-purple-400/30 text-center space-y-6">
+                <div class="flex justify-between items-center text-sm font-bold text-purple-200 bg-purple-900/60 px-4 py-2 rounded-xl">
+                    <span>Soal <span id="quizCurrentIndex">1</span>/5</span>
+                    <span>Poin: <span id="quizScoreText" class="text-yellow-300">0</span></span>
+                </div>
+
+                <div class="space-y-4">
+                    <div id="quizEmoji" class="text-7xl animate-bounceShort">🐄</div>
+                    <h3 id="quizQuestion" class="text-2xl font-bold text-white">Apa sebutan untuk anak Sapi?</h3>
+                </div>
+
+                <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <!-- Options injected by JS -->
+                </div>
+
+                <div id="quizFeedback" class="text-lg font-bold min-h-[28px] text-yellow-300"></div>
+            </div>
+        </section>
+
+        <!-- KAMUS / LEARN SECTION -->
+        <section id="learnSection" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-purple-800 hover:bg-purple-700 text-yellow-300 px-4 py-2 rounded-xl border border-purple-400/30 font-bold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kembali</span>
+                </button>
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-yellow-300">Kamus Anak Hewan</h2>
+                    <p class="text-xs text-purple-200">Yuk kenali nama-nama sebutan anak hewan dalam Bahasa Indonesia!</p>
+                </div>
+                <div class="w-16"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="dictionaryGrid">
+                <!-- Cards injected by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SUCCESS / REWARD MODAL -->
+    <div id="rewardModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card bg-brand-darkPurple rounded-3xl p-8 max-w-sm w-full text-center border-2 border-yellow-400 space-y-4 animate-pop">
+            <div class="text-6xl animate-bounce">🏆</div>
+            <h3 class="text-3xl font-extrabold text-yellow-300">Hebat Sekali!</h3>
+            <p id="rewardModalMsg" class="text-purple-100 font-medium">Kamu telah berhasil menyelesaikan permainan!</p>
+            <div class="text-3xl text-yellow-400 space-x-2">
+                <span>⭐</span><span>⭐</span><span>⭐</span>
+            </div>
+            
+            <a href="https://nhabdullah27-hub.github.io/100GameKreatif/" target="_blank" rel="noopener noreferrer" class="block bg-gradient-to-r from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-slate-900 font-black py-3 px-4 rounded-2xl text-sm shadow-lg transition transform hover:scale-105 text-center border border-green-200">
+                🎁 Buka 100+ Game Edukatif Lainnya!
+            </a>
+
+            <button onclick="closeRewardModal()" class="glass-button w-full py-3 rounded-2xl font-bold text-slate-900 text-lg">
+                Lanjut Bermain 🚀
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Web Audio API Synthesizer for kids sound effects (No external audio files required!)
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = 'fas fa-volume-up';
+                playPopSound();
+            } else {
+                icon.className = 'fas fa-volume-mute';
+            }
+        }
+
+        function playTone(freq, type, duration, delay = 0) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + duration);
+                }, delay * 1000);
+            } catch(e) {}
+        }
+
+        function playPopSound() {
+            playTone(400, 'sine', 0.1);
+        }
+
+        function playCorrectSound() {
+            playTone(523.25, 'sine', 0.15, 0);   // C5
+            playTone(659.25, 'sine', 0.15, 0.1); // E5
+            playTone(783.99, 'sine', 0.3, 0.2);  // G5
+        }
+
+        function playWrongSound() {
+            playTone(220, 'sawtooth', 0.2, 0);
+            playTone(180, 'sawtooth', 0.3, 0.15);
+        }
+
+        function playWinFanfare() {
+            if (!soundEnabled) return;
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((note, idx) => {
+                playTone(note, 'triangle', 0.25, idx * 0.12);
+            });
+        }
+
+        // Global State & Data
+        let totalStars = 0;
+
+        const ANIMAL_DATA = [
+            { id: 'cow', name: 'Sapi', babyName: 'Pedet', motherEmoji: '🐄', babyEmoji: '🐮', soundText: 'Moo Mooo!' },
+            { id: 'chicken', name: 'Ayam', babyName: 'Pitik', motherEmoji: '🐔', babyEmoji: '🐥', soundText: 'Petok Petok!' },
+            { id: 'cat', name: 'Kucing', babyName: 'Anak Kucing', motherEmoji: '🐈', babyEmoji: '🐱', soundText: 'Meow Meow!' },
+            { id: 'horse', name: 'Kuda', babyName: 'Belo', motherEmoji: '🐎', babyEmoji: '🐴', soundText: 'Iiii-haaa!' },
+            { id: 'goat', name: 'Kambing', babyName: 'Cempe', motherEmoji: '🐐', babyEmoji: '🐐', soundText: 'Mbeeek!' },
+            { id: 'duck', name: 'Bebek', babyName: 'Meri', motherEmoji: '🦆', babyEmoji: '🐤', soundText: 'Kwek Kwek!' },
+            { id: 'dog', name: 'Anjing', babyName: 'Pupi', motherEmoji: '🐕', babyEmoji: '🐶', soundText: 'Guk Guk!' },
+            { id: 'lion', name: 'Singa', babyName: 'Anak Singa', motherEmoji: '🦁', babyEmoji: '🦁', soundText: 'Roaaar!' }
+        ];
+
+        function showSection(sectionId) {
+            initAudio();
+            playPopSound();
+
+            const sections = ['homeSection', 'matchGameSection', 'rescueGameSection', 'memoryGameSection', 'quizGameSection', 'learnSection'];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            if (sectionId === 'home') {
+                document.getElementById('homeSection').classList.remove('hidden');
+            } else if (sectionId === 'matchGame') {
+                document.getElementById('matchGameSection').classList.remove('hidden');
+                initMatchGame();
+            } else if (sectionId === 'rescueGame') {
+                document.getElementById('rescueGameSection').classList.remove('hidden');
+                initRescueGame();
+            } else if (sectionId === 'memoryGame') {
+                document.getElementById('memoryGameSection').classList.remove('hidden');
+                initMemoryGame();
+            } else if (sectionId === 'quizGame') {
+                document.getElementById('quizGameSection').classList.remove('hidden');
+                initQuizGame();
+            } else if (sectionId === 'learnSection') {
+                document.getElementById('learnSection').classList.remove('hidden');
+                initLearnDictionary();
+            }
+        }
+
+        function addStars(num) {
+            totalStars += num;
+            document.getElementById('starScore').innerText = totalStars;
+        }
+
+        function showRewardModal(message) {
+            playWinFanfare();
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            document.getElementById('rewardModalMsg').innerText = message;
+            document.getElementById('rewardModal').classList.remove('hidden');
+        }
+
+        function closeRewardModal() {
+            playPopSound();
+            document.getElementById('rewardModal').classList.add('hidden');
+            showSection('home');
+        }
+
+        // GAME 1: MATCHING GAME LOGIC
+        let selectedBaby = null;
+        let matchedCount = 0;
+        let currentGameAnimals = [];
+
+        function initMatchGame() {
+            selectedBaby = null;
+            matchedCount = 0;
+            // Pick 4 random animals
+            currentGameAnimals = [...ANIMAL_DATA].sort(() => 0.5 - Math.random()).slice(0, 4);
+
+            const babies = [...currentGameAnimals].sort(() => 0.5 - Math.random());
+            const mothers = [...currentGameAnimals].sort(() => 0.5 - Math.random());
+
+            const babiesContainer = document.getElementById('babiesContainer');
+            const mothersContainer = document.getElementById('mothersContainer');
+
+            babiesContainer.innerHTML = '';
+            mothersContainer.innerHTML = '';
+
+            babies.forEach(animal => {
+                const btn = document.createElement('button');
+                btn.id = `baby-${animal.id}`;
+                btn.className = `glass-card hover:bg-pink-500/30 p-4 rounded-2xl flex flex-col items-center justify-center border-2 border-pink-400/30 transition transform active:scale-95`;
+                btn.innerHTML = `
+                    <span class="text-5xl mb-2 animate-wiggle">${animal.babyEmoji}</span>
+                    <span class="font-bold text-sm text-pink-200">${animal.babyName}</span>
+                `;
+                btn.onclick = () => selectBaby(animal, btn);
+                babiesContainer.appendChild(btn);
+            });
+
+            mothers.forEach(animal => {
+                const btn = document.createElement('button');
+                btn.id = `mother-${animal.id}`;
+                btn.className = `glass-card hover:bg-yellow-500/30 p-4 rounded-2xl flex flex-col items-center justify-center border-2 border-yellow-400/30 transition transform active:scale-95`;
+                btn.innerHTML = `
+                    <span class="text-5xl mb-2">${animal.motherEmoji}</span>
+                    <span class="font-bold text-sm text-yellow-200">Induk ${animal.name}</span>
+                `;
+                btn.onclick = () => selectMother(animal, btn);
+                mothersContainer.appendChild(btn);
+            });
+
+            document.getElementById('matchGameMsg').innerText = "Sentuh salah satu Anak Hewan di sebelah kiri!";
+        }
+
+        function selectBaby(animal, el) {
+            playPopSound();
+            // Clear previous highlight
+            document.querySelectorAll('#babiesContainer button').forEach(b => {
+                b.classList.remove('ring-4', 'ring-pink-400', 'bg-pink-500/40');
+            });
+            selectedBaby = animal;
+            el.classList.add('ring-4', 'ring-pink-400', 'bg-pink-500/40');
+            document.getElementById('matchGameMsg').innerText = `Sekarang, cari Induk dari ${animal.babyName}!`;
+        }
+
+        function selectMother(animal, el) {
+            if (!selectedBaby) {
+                playWrongSound();
+                document.getElementById('matchGameMsg').innerText = "⚠️ Pilih Anak Hewan di kiri terlebih dahulu!";
+                return;
+            }
+
+            if (selectedBaby.id === animal.id) {
+                // Correct match!
+                playCorrectSound();
+                matchedCount++;
+                addStars(10);
+
+                const babyEl = document.getElementById(`baby-${selectedBaby.id}`);
+                const motherEl = document.getElementById(`mother-${animal.id}`);
+
+                babyEl.disabled = true;
+                motherEl.disabled = true;
+
+                babyEl.className = 'bg-green-500/30 border-2 border-green-400 p-4 rounded-2xl flex flex-col items-center opacity-60 cursor-not-allowed';
+                motherEl.className = 'bg-green-500/30 border-2 border-green-400 p-4 rounded-2xl flex flex-col items-center opacity-60 cursor-not-allowed';
+
+                babyEl.innerHTML += `<span class="text-xs text-green-300 font-bold mt-1">✓ Cocok!</span>`;
+                motherEl.innerHTML += `<span class="text-xs text-green-300 font-bold mt-1">✓ Cocok!</span>`;
+
+                document.getElementById('matchGameMsg').innerText = `🎉 Hebat! ${selectedBaby.babyName} bertemu Induk ${animal.name}! (${animal.soundText})`;
+                selectedBaby = null;
+
+                if (matchedCount === currentGameAnimals.length) {
+                    setTimeout(() => {
+                        showRewardModal('Kamu berhasil mencocokkan semua induk dan anak hewan!');
+                    }, 800);
+                }
+            } else {
+                // Wrong match
+                playWrongSound();
+                document.getElementById('matchGameMsg').innerText = `❌ Tetot! Itu bukan induk dari ${selectedBaby.babyName}. Coba lagi!`;
+            }
+        }
+
+        function resetMatchGame() {
+            initMatchGame();
+        }
+
+        // GAME 2: RESCUE / BUSH HUNT GAME LOGIC
+        let currentRescueTarget = null;
+        let rescueAttempts = 0;
+
+        function initRescueGame() {
+            rescueAttempts = 0;
+            currentRescueTarget = ANIMAL_DATA[Math.floor(Math.random() * ANIMAL_DATA.length)];
+            
+            document.getElementById('rescueMotherEmoji').innerText = currentRescueTarget.motherEmoji;
+            document.getElementById('rescueTaskText').innerText = `"${currentRescueTarget.soundText} Dimanakah ${currentRescueTarget.babyName} milikku?"`;
+            document.getElementById('rescueFeedback').innerText = "Ketuk semak-semak di bawah untuk menemukan anaknya!";
+
+            // Pick 3 random distractors + 1 target
+            let distractors = ANIMAL_DATA.filter(a => a.id !== currentRescueTarget.id)
+                                          .sort(() => 0.5 - Math.random())
+                                          .slice(0, 3);
+            let pool = [currentRescueTarget, ...distractors].sort(() => 0.5 - Math.random());
+
+            const bushesGrid = document.getElementById('bushesGrid');
+            bushesGrid.innerHTML = '';
+
+            pool.forEach((animal, idx) => {
+                const card = document.createElement('div');
+                card.className = `glass-card hover:bg-purple-700/50 p-6 rounded-3xl cursor-pointer flex flex-col items-center justify-center transition border border-purple-400/30 text-center`;
+                card.innerHTML = `
+                    <div id="bushContent-${idx}" class="text-6xl transition duration-300">🌳</div>
+                    <div id="bushLabel-${idx}" class="mt-2 text-xs font-bold text-purple-200">Semak ${idx + 1}</div>
+                `;
+                card.onclick = () => revealBush(idx, animal, card);
+                bushesGrid.appendChild(card);
+            });
+        }
+
+        function revealBush(idx, animal, cardEl) {
+            const content = document.getElementById(`bushContent-${idx}`);
+            const label = document.getElementById(`bushLabel-${idx}`);
+
+            if (content.innerText !== '🌳') return; // Already revealed
+
+            content.innerText = animal.babyEmoji;
+            content.classList.add('scale-125');
+
+            if (animal.id === currentRescueTarget.id) {
+                // Found!
+                playCorrectSound();
+                addStars(15);
+                label.innerText = `✓ ${animal.babyName}`;
+                label.className = 'mt-2 text-xs font-bold text-green-300';
+                cardEl.className = 'bg-green-500/30 border-2 border-green-400 p-6 rounded-3xl flex flex-col items-center justify-center text-center';
+                document.getElementById('rescueFeedback').innerText = `🎉 YAY! ${currentRescueTarget.babyName} berhasil ditemukan!`;
+
+                setTimeout(() => {
+                    showRewardModal(`Terima kasih sudah membantu Induk ${currentRescueTarget.name} menemukan anaknya!`);
+                }, 1000);
+            } else {
+                // Wrong bush
+                playWrongSound();
+                label.innerText = animal.babyName;
+                label.className = 'mt-2 text-xs font-bold text-pink-300';
+                document.getElementById('rescueFeedback').innerText = `Bukan yang ini! Ini adalah ${animal.babyName}. Cari lagi!`;
+            }
+        }
+
+        // GAME 3: MEMORY CARD GAME LOGIC
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function initMemoryGame() {
+            matchedPairs = 0;
+            flippedCards = [];
+
+            // Pick 3 animals for 6 cards total
+            const selectedAnimals = [...ANIMAL_DATA].sort(() => 0.5 - Math.random()).slice(0, 3);
+            memoryCards = [];
+
+            selectedAnimals.forEach(a => {
+                memoryCards.push({ id: a.id, type: 'mother', emoji: a.motherEmoji, label: `Induk ${a.name}` });
+                memoryCards.push({ id: a.id, type: 'baby', emoji: a.babyEmoji, label: a.babyName });
+            });
+
+            memoryCards.sort(() => 0.5 - Math.random());
+
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+
+            memoryCards.forEach((card, index) => {
+                const btn = document.createElement('button');
+                btn.className = `h-28 glass-card bg-purple-900/80 rounded-2xl flex flex-col items-center justify-center text-3xl font-bold border border-purple-400/40 transition transform active:scale-95`;
+                btn.id = `mem-card-${index}`;
+                btn.innerHTML = `❓`;
+                btn.onclick = () => flipMemoryCard(index, card, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function flipMemoryCard(index, card, btn) {
+            if (flippedCards.length >= 2 || btn.disabled || flippedCards.some(c => c.index === index)) return;
+
+            playPopSound();
+            btn.innerHTML = `<span class="text-4xl animate-bounceShort">${card.emoji}</span><span class="text-[10px] font-semibold text-yellow-200 mt-1">${card.label}</span>`;
+            btn.classList.add('bg-purple-700/80', 'border-yellow-400');
+
+            flippedCards.push({ index, card, btn });
+
+            if (flippedCards.length === 2) {
+                const [first, second] = flippedCards;
+                if (first.card.id === second.card.id) {
+                    // Match
+                    playCorrectSound();
+                    matchedPairs++;
+                    addStars(10);
+                    first.btn.disabled = true;
+                    second.btn.disabled = true;
+                    first.btn.classList.add('bg-green-500/30', 'border-green-400');
+                    second.btn.classList.add('bg-green-500/30', 'border-green-400');
+                    flippedCards = [];
+
+                    if (matchedPairs === memoryCards.length / 2) {
+                        setTimeout(() => {
+                            showRewardModal('Ingatanmu hebat sekali! Semua pasangan kartu berhasil ditemukan!');
+                        }, 800);
+                    }
+                } else {
+                    // Fail
+                    playWrongSound();
+                    setTimeout(() => {
+                        first.btn.innerHTML = '❓';
+                        second.btn.innerHTML = '❓';
+                        first.btn.classList.remove('bg-purple-700/80', 'border-yellow-400');
+                        second.btn.classList.remove('bg-purple-700/80', 'border-yellow-400');
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        function resetMemoryGame() {
+            initMemoryGame();
+        }
+
+        // GAME 4: QUIZ LOGIC
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizQuestions = [];
+
+        function initQuizGame() {
+            quizIndex = 0;
+            quizScore = 0;
+            quizQuestions = [...ANIMAL_DATA].sort(() => 0.5 - Math.random()).slice(0, 5);
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            if (quizIndex >= quizQuestions.length) {
+                showRewardModal(`Kuis selesai! Kamu mendapatkan ${quizScore} poin bintang!`);
+                return;
+            }
+
+            const current = quizQuestions[quizIndex];
+            document.getElementById('quizCurrentIndex').innerText = quizIndex + 1;
+            document.getElementById('quizScoreText').innerText = quizScore;
+            document.getElementById('quizEmoji').innerText = current.motherEmoji;
+            document.getElementById('quizQuestion').innerText = `Apa sebutan untuk anak dari ${current.name}?`;
+            document.getElementById('quizFeedback').innerText = '';
+
+            // Generate options (1 correct, 3 wrong)
+            const wrongOptions = ANIMAL_DATA.filter(a => a.id !== current.id)
+                                           .map(a => a.babyName)
+                                           .sort(() => 0.5 - Math.random())
+                                           .slice(0, 3);
+            const options = [current.babyName, ...wrongOptions].sort(() => 0.5 - Math.random());
+
+            const container = document.getElementById('quizOptions');
+            container.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `glass-card hover:bg-yellow-500/30 p-4 rounded-2xl font-bold text-lg text-yellow-200 border border-yellow-400/40 transition transform active:scale-95 text-center`;
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(opt, current.babyName, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkQuizAnswer(selected, correct, btn) {
+            const allBtns = document.querySelectorAll('#quizOptions button');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                playCorrectSound();
+                btn.className = 'bg-green-500/40 border-2 border-green-400 p-4 rounded-2xl font-bold text-lg text-white text-center';
+                document.getElementById('quizFeedback').innerText = '🎉 Jawabanmu Benar! 🌟';
+                quizScore += 10;
+                addStars(10);
+            } else {
+                playWrongSound();
+                btn.className = 'bg-red-500/40 border-2 border-red-400 p-4 rounded-2xl font-bold text-lg text-white text-center';
+                document.getElementById('quizFeedback').innerText = `❌ Jawaban yang benar adalah: ${correct}`;
+            }
+
+            setTimeout(() => {
+                quizIndex++;
+                loadQuizQuestion();
+            }, 1500);
+        }
+
+        // LEARNING DICTIONARY LOGIC
+        function initLearnDictionary() {
+            const grid = document.getElementById('dictionaryGrid');
+            grid.innerHTML = '';
+
+            ANIMAL_DATA.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = `glass-card rounded-2xl p-5 flex items-center space-x-4 border border-purple-400/30 card-hover`;
+                card.innerHTML = `
+                    <div class="text-5xl bg-purple-900/60 p-3 rounded-2xl border border-purple-400/20">
+                        ${animal.motherEmoji}
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-yellow-300">Induk ${animal.name}</h4>
+                        <p class="text-sm text-purple-200">Anak: <span class="font-bold text-pink-300">${animal.babyName} ${animal.babyEmoji}</span></p>
+                        <p class="text-xs text-purple-300 mt-1 italic">Suara: "${animal.soundText}"</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize user audio listener
+        window.addEventListener('click', () => {
+            initAudio();
+        }, { once: true });
+    </script>
+</body>
+</html>
